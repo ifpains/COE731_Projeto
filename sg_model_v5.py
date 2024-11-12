@@ -209,7 +209,7 @@ class Model(ET):
     def optimizer(self, name):
         if name == 'SSR':
             optimizer_ = ps.SSR(
-                alpha=0.05,
+                alpha=0.01,
                 fit_intercept=True,
             )
         if name == 'SR3':
@@ -217,8 +217,8 @@ class Model(ET):
                 threshold=0.01,
                 thresholder="L2",
                 trimming_fraction=0.1,
-                max_iter=4000,
-                tol=1e-14,
+                max_iter=30,
+                tol=1e-8,
             )
         if name == 'STLSQ':
             optimizer_ = ps.STLSQ(
@@ -285,7 +285,7 @@ class Model(ET):
                     feature_names = ["x", "d", "u"],
                     optimizer=optimizer_,
                     feature_library=lib,
-                    differentiation_method=ps.SmoothedFiniteDifference(smoother_kws={'window_length':5})
+                    differentiation_method=ps.FiniteDifference(order=1)
                 )
 
                 print(opt, lib)
